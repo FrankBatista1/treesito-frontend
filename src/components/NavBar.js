@@ -9,8 +9,8 @@ const NavBar = () => {
       <Container>
         <Navbar.Brand >🌳 Treesitos</Navbar.Brand>
         <Nav className="me-auto">
-          <Link to="/">Home</Link> {" "}
-          <Link to="/trees">Trees Planted</Link>{" "}
+          <Link to="/home">Home</Link> {" "}
+          <Link to="/plant">Trees Planted</Link>{" "}
         </Nav>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
