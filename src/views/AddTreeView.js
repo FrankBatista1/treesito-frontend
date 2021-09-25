@@ -5,9 +5,9 @@ import { getTreesFromApi, postTreeToApi } from '../services/TreeService';
 const AddTreeView = () => {
   const [trees, setTrees] = useState([]);
   const [singleTree, setSingleTree] = useState({
-    Name: '',
-    Address: '',
-    Description: '',
+    name: '',
+    address: '',
+    description: '',
   })
   
   useEffect(() => {
