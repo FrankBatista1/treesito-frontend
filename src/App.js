@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route exact path="/trees" component={AddTreeView}/>
+        <Route exact path="/plant" component={AddTreeView} />
       </Switch>
     </BrowserRouter>
   );
