@@ -25,7 +25,7 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 };
-function Map() {
+function Map(props) {
   //gets the api and the libraries
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -34,7 +34,7 @@ function Map() {
   });
   
   const [markers, setMarksers] = React.useState([]);
-  const [selected, setSelected] = React.useState(null)
+
 
 
   useEffect(() => {
@@ -62,10 +62,10 @@ function Map() {
     <>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={1}
+        zoom={2}
         center={center}
         options={options}
-        onClick={(event) => {setSelected({lat: event.latLng.lat(), lng: event.latLng.lng()})}}
+        onClick={(event) => {props.setSelected({lat: event.latLng.lat(), lng: event.latLng.lng()})}}
         onLoad={onMapLoad}
       >
         {markers && markers.map((marker) => (
@@ -78,18 +78,18 @@ function Map() {
               anchor: new window.google.maps.Point(15, 15),
               scaledSize: new window.google.maps.Size(30, 30),
             }}
-            onClick={() => setSelected(marker)}
+            onClick={() => props.setSelected(marker)}
           />
         ))}
 
-        {selected ? (<InfoWindow position={{lat: selected.lat, lng: selected.lng}} onCloseClick={() => {setSelected(null)}}>
+        {props.selected ? (<InfoWindow position={{lat: props.selected.lat, lng: props.selected.lng}} onCloseClick={() => {props.setSelected(null)}}>
           <div>
-            {selected.planterName ? (<h5>Planted by {selected.planterName}</h5>): (<><p>Latitude: {selected.lat}<br />Longitude: {selected.lng}</p><button>Select </button></>)}
-            {selected.description ? (<p>Description: {selected.description}</p>): null}
+            {props.selected.planterName ? (<h5>Planted by {props.selected.planterName}</h5>): (<><p>Latitude: {props.selected.lat}<br />Longitude: {props.selected.lng}</p><button onClick={() => props.setCoordinatesInForm()} >Use coordinates</button></>)}
+            {props.selected.description ? (<p>Description: {props.selected.description}</p>): null}
 
           </div>
         </InfoWindow>) : null}
-      </GoogleMap>
+      </GoogleMap> 
     </>
   );
 }

@@ -2,16 +2,18 @@ import { id } from "date-fns/locale";
 import { useState, useEffect } from "react";
 import { getTreesFromApi, postTreeToApi } from "../services/TreeService";
 import Map from '../views/Map'
+import React from "react";
 
 const AddTreeView = () => {
   const [trees, setTrees] = useState([]);
-  const [singleTree, setSingleTree] = useState({
-    planterName: "",
-    location: "",
-    lat: "",
-    lng: "",
-    description: "",
-  });
+  const [planterName, setPlanterName] = useState("")
+  const [location, setLocation] = useState('')
+  const [lat, setLat] = useState('')
+  const [lng, setLng] = useState('')
+  const [description, setDescription] = useState('')
+ 
+
+  const [selected, setSelected] = React.useState(null)
   
 
   useEffect(() => {
@@ -22,27 +24,23 @@ const AddTreeView = () => {
     getTrees();
   }, []);
   
-  const handleChange = (event) => {
-    setSingleTree({
-      ...singleTree,
-      [event.target.name]: event.target.value,
-    });
-  };
-  // get categories for selector
 
-  // handle change
+
+  function setCoordinatesInForm (){
+    setLng(selected.lng)
+    setLat(selected.lat)
+  }
+ 
 
   // handle submit
   const handleSubmit = (event) => {
     event.preventDefault();
-    postTreeToApi(singleTree);
-    setSingleTree({
-      planterName: "",
-      location: "",
-      lat: "",
-      lng: "",
-      description: "",
-    });
+    postTreeToApi({planterName, location, lat, lng, description});
+    setPlanterName('');
+    setLocation('');
+    setLat('');
+    setLng('');
+    setDescription('');
     window.location.reload();
   };
 
@@ -51,36 +49,40 @@ const AddTreeView = () => {
       <form className="productForm">
         <h2>Add Tree</h2>
         <input
-          value={singleTree.planterName}
-          onChange={handleChange}
+          value={planterName}
+          onChange={(e) => setPlanterName(e.target.value)}
           className="form-control"
           name="planterName"
           type="text"
           placeholder="Name" />
         <input
-          value={singleTree.location}
-          onChange={handleChange}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           className="form-control"
           name="location"
           type="text"
           placeholder="Address" />
         <input
-          value={singleTree.lat}
-          onChange={handleChange}
+          value={lat}
+          onChange={(e) => setLat(e.target.value)}
           className="form-control"
           name="lat"
           type="number"
-          placeholder="Latitude" />
+          placeholder="Select latitude in the map"
+          disabled
+          />
         <input
-          value={singleTree.lng}
-          onChange={handleChange}
+          value={lng}
+          onChange={(e) => setLng(e.target.value)}
           className="form-control"
           name="lng"
           type="number"
-          placeholder="Longitude" />
+          placeholder="Select longitude in the map"
+          disabled
+          />
         <textarea
-          value={singleTree.description}
-          onChange={handleChange}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className="form-control"
           name="description"
           rows={3}
@@ -93,7 +95,7 @@ const AddTreeView = () => {
           Add Tree
         </button>
       </form>
-    </div><Map></Map></>
+    </div><Map setCoordinatesInForm={setCoordinatesInForm} selected={selected} setSelected={setSelected}></Map></>
   );
 };
 
