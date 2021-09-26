@@ -14,7 +14,7 @@ const NavBar = () => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Created By: <a href="#login">Andriw Tapanas</a>,{" "}
+            Created By: <a href="#login">Andriw Tapanes</a>,{" "}
             <a href="#login">Frank Batista</a>,{" "}
             <a href="#login">Thomas Knoepffler</a>
           </Navbar.Text>

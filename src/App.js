@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import AddTreeView from "./views/AddTreeView";
+import HomeView from "./views/HomeView";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/plant" component={AddTreeView} />
+        <Route exact path="/home" component={HomeView} />
       </Switch>
     </BrowserRouter>
   );
