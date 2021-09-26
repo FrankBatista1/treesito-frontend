@@ -1,3 +1,4 @@
+import { id } from "date-fns/locale";
 import { useState, useEffect } from "react";
 import { getTreesFromApi, postTreeToApi } from "../services/TreeService";
 import Map from '../views/Map'
@@ -11,24 +12,25 @@ const AddTreeView = () => {
     lng: "",
     description: "",
   });
+  
 
   useEffect(() => {
+    const getTrees = async () => {
+      const response = await getTreesFromApi();
+      setTrees(response.data);
+    };
     getTrees();
   }, []);
-
-  // get categories for selector
-  const getTrees = async () => {
-    const response = await getTreesFromApi();
-    setTrees(response.data);
-  };
-
-  // handle change
+  
   const handleChange = (event) => {
     setSingleTree({
       ...singleTree,
       [event.target.name]: event.target.value,
     });
   };
+  // get categories for selector
+
+  // handle change
 
   // handle submit
   const handleSubmit = (event) => {
@@ -41,6 +43,7 @@ const AddTreeView = () => {
       lng: "",
       description: "",
     });
+    window.location.reload();
   };
 
   return (

@@ -5,7 +5,6 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { formatRelative } from "date-fns";
 import { getTreesFromApi } from "../services/TreeService";
 import mapStyles from "../styles/MapStyle";
 require('dotenv').config()
@@ -18,8 +17,8 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 25.87,
-  lng: -80.3,
+  lat: 0,
+  lng: 0,
 };
 const options = {
   styles: mapStyles,
@@ -39,17 +38,17 @@ function Map() {
 
 
   useEffect(() => {
+    const getCoordinates = async () => {
+    try {
+      const data = await getTreesFromApi()
+      setMarksers(data.data);
+    } catch (error) {
+      console.log('Can get trees')
+    }
+  };
     getCoordinates()
-  }, [markers])
+  }, [])
   
-  const getCoordinates = async () => {
-  try {
-    const data = await getTreesFromApi()
-    setMarksers(data.data);
-  } catch (error) {
-    console.log('Can get trees')
-  }
-};
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -66,6 +65,7 @@ function Map() {
         zoom={1}
         center={center}
         options={options}
+        onClick={(event) => {setSelected({lat: event.latLng.lat(), lng: event.latLng.lng()})}}
         onLoad={onMapLoad}
       >
         {markers && markers.map((marker) => (
@@ -84,10 +84,9 @@ function Map() {
 
         {selected ? (<InfoWindow position={{lat: selected.lat, lng: selected.lng}} onCloseClick={() => {setSelected(null)}}>
           <div>
-            <h2>
-              Tree Planted
-            </h2>
-            <p>Added {formatRelative(selected.time, new Date())}</p>
+            {selected.planterName ? (<h5>Planted by {selected.planterName}</h5>): (<><p>Latitude: {selected.lat}<br />Longitude: {selected.lng}</p><button>Select </button></>)}
+            {selected.description ? (<p>Description: {selected.description}</p>): null}
+
           </div>
         </InfoWindow>) : null}
       </GoogleMap>
