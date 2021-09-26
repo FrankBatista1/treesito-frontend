@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { getTreesFromApi, postTreeToApi } from "../services/TreeService";
+import Map from '../views/Map'
 
 const AddTreeView = () => {
   const [trees, setTrees] = useState([]);
   const [singleTree, setSingleTree] = useState({
     planterName: "",
     location: "",
+    lat: "",
+    lng: "",
     description: "",
   });
 
@@ -34,12 +37,14 @@ const AddTreeView = () => {
     setSingleTree({
       planterName: "",
       location: "",
+      lat: "",
+      lng: "",
       description: "",
     });
   };
 
   return (
-    <div className="container mt-5">
+    <><div className="container mt-5">
       <form className="productForm">
         <h2>Add Tree</h2>
         <input
@@ -48,24 +53,35 @@ const AddTreeView = () => {
           className="form-control"
           name="planterName"
           type="text"
-          placeholder="Name"
-        />
+          placeholder="Name" />
         <input
           value={singleTree.location}
           onChange={handleChange}
           className="form-control"
           name="location"
           type="text"
-          placeholder="Address"
-        />
+          placeholder="Address" />
+        <input
+          value={singleTree.lat}
+          onChange={handleChange}
+          className="form-control"
+          name="lat"
+          type="number"
+          placeholder="Latitude" />
+        <input
+          value={singleTree.lng}
+          onChange={handleChange}
+          className="form-control"
+          name="lng"
+          type="number"
+          placeholder="Longitude" />
         <textarea
           value={singleTree.description}
           onChange={handleChange}
           className="form-control"
           name="description"
           rows={3}
-          placeholder="Description..."
-        />
+          placeholder="Description..." />
 
         <button
           onClick={handleSubmit}
@@ -74,7 +90,7 @@ const AddTreeView = () => {
           Add Tree
         </button>
       </form>
-    </div>
+    </div><Map></Map></>
   );
 };
 
