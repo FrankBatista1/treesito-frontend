@@ -1,9 +1,15 @@
 import "../App.css";
 import Members from "../components/Members";
 
+import { useState, useEffect } from "react";
+import CarouselImg from "../components/CarouseImg";
+
+import { getTreesFromApi, postTreeToApi } from "../services/TreeService";
+
 const HomeView = () => {
   return (
     <div className="section1">
+      <CarouselImg />
       <div>
         <h3>Our Mission</h3>
         <p>

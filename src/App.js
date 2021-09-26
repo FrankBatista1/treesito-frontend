@@ -8,6 +8,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
+      <Route exact path="/home" component={HomeView} />
         <Route exact path="/plant" component={AddTreeView} />
         <Route exact path="/home" component={HomeView} />
       </Switch>
